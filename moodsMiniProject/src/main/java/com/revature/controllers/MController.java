@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MController {
 		mService = ms;
 	}
 	@PostMapping("/fillDB")
-	public ResponseEntity<HttpStatus> fillDB()
+	public ResponseEntity<String> fillDB()
 	{
 		String[] moods = {"Tired", "Happy", "Sad", "Angry", "Disgusted", "Fearful", "Excited", 
 				"Uncertain", "Bored", "Adoring", "Pouting", "Mischievous", "Sarcastic", "Rushed/Wired", "Musical"};
@@ -40,14 +41,10 @@ public class MController {
 				"I don’t have enough caffeine for this."};	
 		mService.saveMoods(moods);
 		mService.saveMessages(messages);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.accepted().body(mService.getMoods().toString());
 	}
 	@GetMapping("/mood")
 	public ResponseEntity<String> getMood(){
-		//todo: put these in a database
-		String[] moodStrings = {"Tired", "Happy", "Sad", "Angry", "Disgusted", "Fearful", "Excited", 
-				"Uncertain", "Bored", "Adoring", "Pouting", "Mischievous", "Sarcastic", "Rushed/Wired", "Musical"};
-		
 		//use MService to retrieve a random mood from the database
 		Optional<Mood> mo = mService.getMood();
 		if(mo.isPresent())
@@ -55,16 +52,15 @@ public class MController {
 		else
 			return ResponseEntity.notFound().build();
 	}
+	@GetMapping("/allmoods")
+	public ResponseEntity<String> getMoods(){
+	
+		List<Mood> moods = mService.getMoods();
+		return ResponseEntity.accepted().body(moods.toString());
+	}
 	
 	@GetMapping("/message")
 	public ResponseEntity<String> getMessage(){
-		//todo: put these in a database
-		String[] messageStrings = {"My hovercraft is full of eels.", "I turned around for five minutes!", 
-				"Put that thing back where it came from or so help me.", "Who’s a good boy?", "My dog ate my homework.",
-				"It seemed like a good idea at the time.", "Where have you been?", "Do you wanna build a snowman?",
-				"I tawt I taw a puddy tat!", "It’s turtles all the way down.", "Coffee is the lifeblood that drives the dreams of champions.",
-				"Did you say thirty million or three trillion?", "Begin Operation: Upgraded Octo-Guacamole.", "Happy Rama-hana-kwanz-mas-tice.",
-				"I don’t have enough caffeine for this."};	
 
 		//use MService to retrieve a random message from the database
 		Optional<Message> me = mService.getMessage();

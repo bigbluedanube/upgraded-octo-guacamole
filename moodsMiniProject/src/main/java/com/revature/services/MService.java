@@ -34,24 +34,25 @@ public class MService {
 	}
 
 	public void saveMoods(String[] moodStrings) {
-		List<Mood> moList = new ArrayList<Mood>();
-		Mood mo = new Mood();
+		Mood mo;
 		for(int i = 0; i < moodStrings.length; i++) {
-			mo.setId(i);
+			mo = new Mood();
 			mo.setName(moodStrings[i]);
-			moList.add(mo);
+			moDAO.save(mo);
 		}
-		moDAO.saveAll(moList);
 		
 	}
 	public void saveMessages(String[] messages) {
-		List<Message> meList = new ArrayList<Message>();
-		Message me = new Message();
+		Message me;
 		for(int i = 0; i < messages.length; i++) {
-			me.setId(i);
+			me = new Message();
 			me.setText(messages[i]);
-			meList.add(me);
+			meDAO.save(me);
 		}
-		meDAO.saveAll(meList);
+	}
+	
+	public List<Mood> getMoods()
+	{
+		return moDAO.findAll();
 	}
 }
