@@ -44,11 +44,11 @@ public class MController {
 		return ResponseEntity.accepted().body(mService.getMoods().toString());
 	}
 	@GetMapping("/mood")
-	public ResponseEntity<String> getMood(){
+	public ResponseEntity<Mood> getMood(){
 		//use MService to retrieve a random mood from the database
 		Optional<Mood> mo = mService.getMood();
 		if(mo.isPresent())
-			return ResponseEntity.accepted().body(mo.get().getName());
+			return ResponseEntity.accepted().body(mo.get());
 		else
 			return ResponseEntity.notFound().build();
 	}
@@ -60,12 +60,12 @@ public class MController {
 	}
 	
 	@GetMapping("/message")
-	public ResponseEntity<String> getMessage(){
+	public ResponseEntity<Message> getMessage(){
 
 		//use MService to retrieve a random message from the database
 		Optional<Message> me = mService.getMessage();
 		if(me.isPresent())
-			return ResponseEntity.accepted().body(me.get().getText());
+			return ResponseEntity.accepted().body(me.get());
 		else
 			return ResponseEntity.notFound().build();
 		}
