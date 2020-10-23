@@ -6,15 +6,19 @@ import java.util.Random;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.revature.models.Message;
 import com.revature.models.Mood;
+import com.revature.repositories.IMessageDAO;
+import com.revature.repositories.IMoodDAO;
+import com.revature.repositories.MoodDAO;
 
 @SpringBootApplication
 public class MoodsMiniProjectApplication {
-
+	
 	public static void main(String[] args) {
-		//SpringApplication.run(MoodsMiniProjectApplication.class, args);
+		SpringApplication.run(MoodsMiniProjectApplication.class, args);
 		
 		//hard-coded moods and messages
 		String[] moodStrings = {"Tired", "Happy", "Sad", "Angry", "Disgusted", "Fearful", "Excited", 
@@ -31,23 +35,29 @@ public class MoodsMiniProjectApplication {
 		Mood mo;
 		Message me;
 		
+		IMoodDAO moDao;
+		IMessageDAO meDao;
+		moDao = new MoodDAO();
+
+				
 		for(int i = 1; i <= moodStrings.length; i++) {
 			mo = new Mood(i, moodStrings[i-1]);
-			moods.add(mo);
+			moDao.save(mo);
+
 		}
 		for(int i = 1; i <= messageStrings.length; i++) {
 			me = new Message(i, messageStrings[i-1]);
 			messages.add(me);
 		}
 		
-		for(int i = 0; i < 3; i++)
-		{
-			mo = moods.get(new Random().nextInt(moods.size()));
-			me = messages.get(new Random().nextInt(messages.size()));
-			System.out.println("Mood: " + mo.getName());
-			System.out.println("Message: " + me.getText());
-			System.out.println();
-		}
+//		for(int i = 0; i < 3; i++)
+//		{
+//			mo = moods.get(new Random().nextInt(moods.size()));
+//			me = messages.get(new Random().nextInt(messages.size()));
+//			System.out.println("Mood: " + mo.getName());
+//			System.out.println("Message: " + me.getText());
+//			System.out.println();
+//		}
 	}
 
 }
