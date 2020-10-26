@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +40,9 @@ public class MController {
 				"I don’t have enough caffeine for this."};	
 		mService.saveMoods(moods);
 		mService.saveMessages(messages);
-		return ResponseEntity.accepted().body(mService.getMoods().toString());
+		return ResponseEntity.accepted().build();
 	}
+	
 	@GetMapping("/mood")
 	public ResponseEntity<Mood> getMood(){
 		//use MService to retrieve a random mood from the database
@@ -51,12 +51,6 @@ public class MController {
 			return ResponseEntity.accepted().body(mo.get());
 		else
 			return ResponseEntity.notFound().build();
-	}
-	@GetMapping("/allmoods")
-	public ResponseEntity<String> getMoods(){
-	
-		List<Mood> moods = mService.getMoods();
-		return ResponseEntity.accepted().body(moods.toString());
 	}
 	
 	@GetMapping("/message")
@@ -69,6 +63,4 @@ public class MController {
 		else
 			return ResponseEntity.notFound().build();
 		}
-
-
 }

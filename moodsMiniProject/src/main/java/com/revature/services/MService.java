@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -26,11 +25,11 @@ public class MService {
 	}
 	
 	public Optional<Mood> getMood() {
-		return moDAO.findById(new Random().nextInt(moDAO.findAll().size()));
+		return moDAO.findById(new Random().nextInt((moDAO.findAll().size()) - 1));
 	}
 	
 	public Optional<Message> getMessage() {
-		return meDAO.findById(new Random().nextInt(meDAO.findAll().size()));
+		return meDAO.findById(new Random().nextInt((meDAO.findAll().size()) - 1));
 	}
 
 	public void saveMoods(String[] moodStrings) {
